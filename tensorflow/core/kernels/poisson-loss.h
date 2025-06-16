@@ -106,4 +106,4 @@ class PoissonLossUpdater : public DualLossUpdater {
 
 }  // namespace tensorflow
 
-#endif  // TENSORFLOW_CORE_KERNELS_LOGISTIC_LOSS_H_
+#endif  // TENSORFLOW_CORE_KERNELS_POISSON_LOSS_H_
