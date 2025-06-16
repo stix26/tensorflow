@@ -82,8 +82,22 @@ class _PythonMemoryChecker(object):
 
   @trace.trace_wrapper
   def report(self):
-    # TODO(kkb): Implement.
-    pass
+    """Log object allocation differences between snapshots."""
+
+    if len(self._snapshots) < 2:
+      logging.info('Insufficient snapshots for memory report.')
+      return {}
+
+    diff_map = collections.OrderedDict()
+    for i in range(len(self._snapshots) - 1):
+      diff = self._snapshot_diff(i, i + 1)
+      if diff:
+        diff_map[f'{i}->{i + 1}'] = diff
+
+    for key, counter in diff_map.items():
+      logging.info('Snapshot diff %s: %s', key, counter.most_common(5))
+
+    return diff_map
 
   @trace.trace_wrapper
   def assert_no_leak_if_all_possibly_except_one(self):
